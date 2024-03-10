@@ -1,79 +1,104 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# React Native XML Form Renderer
 
-# Getting Started
+This project is a React Native application designed to render XML forms. It allows users to input XML data, parse it, and display the corresponding form fields dynamically.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Folder Structure
 
-## Step 1: Start the Metro Server
-
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
-
-To start Metro, run the following command from the _root_ of your React Native project:
-
-```bash
-# using npm
-npm start
-
-# OR using Yarn
-yarn start
+```lua
+|-- app.js
+|-- src
+|   |-- components
+|   |   |-- DateField.jsx
+|   |   |-- DrawingField.jsx
+|   |   |-- RadioField.jsx
+|   |   |-- TextField.jsx
+|   |-- navigation
+|   |   |-- appNavigation.js
+|   |-- redux
+|   |   |-- appSlice.js
+|   |   |-- store.js
+|   |-- screens
+|   |   |-- HomeScreen.jsx
+|   |   |-- FormScreen.jsx
+|   |-- utils
+|       |-- xmlParser.js
 ```
 
-## Step 2: Start your Application
+## Files
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+### app.js
 
-### For Android
+**Purpose:** Main entry point of the application.
 
-```bash
-# using npm
-npm run android
+**Functionality:**
 
-# OR using Yarn
-yarn android
-```
+- Sets up the Redux store and navigation.
+- Renders StatusBar and AppNavigation.
 
-### For iOS
+### src/components
 
-```bash
-# using npm
-npm run ios
+This folder contains reusable UI components for rendering different types of form fields.
 
-# OR using Yarn
-yarn ios
-```
+| Component        | Purpose                       | Props          | Dependencies                                               |
+| ---------------- | ----------------------------- | -------------- | ---------------------------------------------------------- |
+| DateField.jsx    | Renders a date input field.   | label          | DateTimePicker from @react-native-community/datetimepicker |
+| DrawingField.jsx | Renders a drawing field.      | label          | SketchCanvas from @kichiyaki/react-native-sketch-canvas    |
+| RadioField.jsx   | Renders a radio button group. | label, options | RadioButton from react-native-paper                        |
+| TextField.jsx    | Renders a text input field.   | label          | None                                                       |
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+Each component follows a similar structure:
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+- Receives props for customization.
+- Renders the label if provided.
+- Provides user interaction elements specific to its type.
 
-## Step 3: Modifying your App
+### src/navigation
 
-Now that you have successfully run the app, let's modify it.
+This folder contains navigation-related code.
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+| File             | Purpose                                                                                                                |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| appNavigation.js | Sets up navigation container using React Navigation's StackNavigator. Defines navigation routes for different screens. |
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+### src/redux
 
-## Congratulations! :tada:
+This folder contains Redux-related files for state management.
 
-You've successfully run and modified your React Native App. :partying_face:
+| File        | Purpose                                                                                                                                        |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| appSlice.js | Defines a Redux slice for managing application state related to XML data and errors. Contains actions for setting XML data and error messages. |
+| store.js    | Configures Redux store using configureStore from @reduxjs/toolkit. Combines reducers from appSlice.js to form the root reducer.                |
 
-### Now what?
+### src/screens
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+This folder contains screen components for different parts of the application.
 
-# Troubleshooting
+| Component      | Purpose                                                                                                                                              | Functionality |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| HomeScreen.jsx | Represents the home screen of the application. It allows users to input XML data either by selecting a file or using a predefined XML template.      | TBD           |
+| FormScreen.jsx | Represents a form screen where XML data is rendered dynamically. It displays the parsed XML data as form fields and allows users to submit the form. | TBD           |
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+### src/utils
 
-# Learn More
+This folder contains utility functions for parsing XML data.
 
-To learn more about React Native, take a look at the following resources:
+| File         | Purpose                                                                                                                   |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| xmlParser.js | Contains utility functions for parsing XML data into a JSON format suitable for rendering form fields in the application. |
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+## xmlParser.js
+
+This file contains utility functions for parsing XML data into a JSON format suitable for rendering form fields in the application.
+
+### Functions
+
+| Function                            | Purpose                                                                 | Parameters         | Returns                                                             |
+| ----------------------------------- | ----------------------------------------------------------------------- | ------------------ | ------------------------------------------------------------------- |
+| xmlToJson(xml)                      | Converts XML data to JSON format.                                       | xml (string)       | Promise resolving with parsed JSON data or rejecting with an error. |
+| transformParsedXmlToJson(parsedXml) | Transforms parsed XML data into JSON format.                            | parsedXml (object) | Array of JSON objects representing form fields.                     |
+| formatJson(formJson)                | Formats the JSON data.                                                  | formJson (array)   | Formatted array of JSON objects.                                    |
+| extractFieldInfo(group)             | Extracts field information from a group element in the parsed XML data. | group (object)     | JSON object representing a form field or null.                      |
+| extractTextField(group)             | Extracts information for a text field from a group element.             | group (object)     | JSON object representing a text field.                              |
+| extractDrawingField(group)          | Extracts information for a drawing field from a group element.          | group (object)     | JSON object representing a drawing field.                           |
+| extractRadioField(group)            | Extracts information for a radio field from a group element.            | group (object)     | JSON object representing a radio field.                             |
+| extractDateField(group)             | Extracts information for a date field from a group element.             | group (object)     | JSON object representing a date field or null.                      |
